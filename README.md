@@ -8,9 +8,26 @@ Write a script to scan for java classes and generate test files and methods. A b
 
 ## How To Run
 
-TODO
+Virtualenv
 
-## Components Overview
+```
+$ virtualenv env
+$ source env/bin/activate
+```
+
+Pip
+
+```
+$ pip install -r requirements.txt
+```
+
+Run
+
+```
+$ python generate.py --src /home/userid/projects/helloworld/src
+```
+
+## Components
 
 1. FileScanner: Scans for `.java` files from a given directory
 1. ClassFileParser: Parses `.java` file content into a `ClassFile` Object
@@ -30,8 +47,8 @@ Scan for `.java` files from a given directory
 
 ### Identify package
 
-1. package code must be the first non-empty line in content
-1. line begins with keyword `package`, followed by the package path and ends with a semicolon
+1. `package` code must be the first non-empty line in content
+1. line begins with the keyword `package`, followed by the package path and ends with a semicolon
 
 ### Identify class name
 
