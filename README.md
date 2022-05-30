@@ -52,7 +52,24 @@ Scan for `.java` files from a given directory
 
 ### Identify class name
 
-TODO
+Find the first line that follows the syntax 
+
+```
+<access modifier> class <class name> {
+```
+
+e.g.
+
+```
+public class HelloWorld {
+```
+
+Once line is found, trim and split the line into a list of strings delimited by consecutive spaces. The class name is the element after the ```class``` element.
+
+Additional notes:
+
+1. If no access modifier is found, then the default is ```public```
+1. It is okay if the line does not end with left curly brace ```{```
 
 ### Scan for member variables
 
