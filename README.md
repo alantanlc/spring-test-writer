@@ -10,20 +10,20 @@ Write a script to scan for java classes and generate test files and methods. A b
 
 Virtualenv
 
-```
+```shell
 $ virtualenv env
 $ source env/bin/activate
 ```
 
 Pip
 
-```
+```shell
 $ pip install -r requirements.txt
 ```
 
 Run
 
-```
+```shell
 $ python generate.py --src /home/userid/projects/helloworld/src
 ```
 
@@ -54,13 +54,13 @@ Scan for `.java` files from a given directory
 
 Find the first line that follows the syntax 
 
-```
+```java
 <access modifier> class <class name> {
 ```
 
 e.g.
 
-```
+```java
 public class HelloWorld {
 ```
 
