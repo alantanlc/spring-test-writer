@@ -57,7 +57,7 @@ Reads and parses the content of a class file into a `ClassFile` object.
 Find the first line that follows the syntax:
 
 ```java
-[<access_modifier> ][<other_keywords> ]class <class_name> {
+[<access_modifier> ][<other_keywords> ]class <class_name>[ <extends_or_implements_class>][ {]
 ```
 
 e.g.
