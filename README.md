@@ -4,7 +4,7 @@ One fine Saturday evening as I was eating my Mee Hoon Kuay at Old Airport Road F
 
 Then, a brilliant idea came to mind (if I say so myself, lol).
 
-Write a script to scan for java classes and generate test files and methods. A bonus if the automatically generated test cases could run and provide 100% covereage without any correction.
+Write a script to scan for java classes and generate test files and methods. A bonus if the automatically generated test cases could run and provide 100% coverage without any correction.
 
 ## How To Run
 
@@ -31,15 +31,17 @@ $ python generate.py --src /home/userid/projects/helloworld/src
 
 1. FileScanner: Scans for `.java` files from a given directory
 1. ClassFileParser: Parses `.java` file content into a `ClassFile` Object
-1. TestFileGenerator: Generates test file from a `ClassFile` object
+1. TestFileGenerator: Generates test file in `.java` format from a `ClassFile` object
 
 ## FileScanner
 
-Scan for `.java` files from a given directory
+Recursively scan for `.java` files from a given root directory and return the list of class files.
 
 ## ClassFileParser
 
-1. Load content of `.java` file
+Reads and parses the content of a class file into a `ClassFile` object.
+
+1. Read content of `.java` file
 1. Identify package
 1. Identify class name
 1. Scan for member variables
@@ -48,14 +50,14 @@ Scan for `.java` files from a given directory
 ### Identify package
 
 1. `package` code must be the first non-empty line in content
-1. line begins with the keyword `package`, followed by the package path and ends with a semicolon
+1. Line begins with the keyword `package`, followed by the package path, and ends with a semicolon
 
 ### Identify class name
 
 Find the first line that follows the syntax 
 
 ```java
-<access modifier> class <class name> {
+[<access modifier> ]class <class name> {
 ```
 
 e.g.
@@ -64,7 +66,7 @@ e.g.
 public class HelloWorld {
 ```
 
-Once line is found, trim and split the line into a list of strings delimited by consecutive spaces. The class name is the element after the ```class``` element.
+Once the line is found, trim and split the line into a list of strings delimited by consecutive spaces. The class name is the element after the ```class``` element.
 
 Additional notes:
 
@@ -73,11 +75,47 @@ Additional notes:
 
 ### Scan for member variables
 
-TODO
+Member variables generally follow the syntax:
+
+```java
+[<access modifier> ][<other keywords> ]<data type> <variable name>[ = <RHS>];
+```
+
+e.g.
+
+```java
+Object object;
+int i = 0;
+private String name;
+protected Map<String, Object> map = new HashMap<>();
+public static final int JANUARY = 1;
+```
+
+Additional notes:
+
+1. `[]` denotes optional
 
 ### Scan for methods
 
-TODO
+Methods generally follow the syntax:
+
+```java
+[<access modifier> ][<other keywords> ]<data type> <variable name>[ = <RHS>];
+```
+
+e.g.
+
+```java
+public void getName()
+protected Cat getById(String id)
+public abstract void getAddress();
+private final int getDays()
+void setName(String name)
+```
+
+Additional Notes:
+
+1.
 
 ## TestFileGenerator
 
