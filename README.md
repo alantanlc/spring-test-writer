@@ -50,35 +50,44 @@ Reads and parses the content of a class file into a `ClassFile` object.
 ### Identify package
 
 1. `package` code must be the first non-empty line in content
-1. Line begins with the keyword `package`, followed by the package path, and ends with a semicolon
+1. Line begins with the keyword `package`, followed by the package path and ends with a semicolon
 
 ### Identify class name
 
-Find the first line that follows the syntax 
+Find the first line that follows the syntax:
 
 ```java
-[<access modifier> ]class <class name> {
+[<access_modifier> ][<other_keywords> ]class <class_name> {
 ```
 
 e.g.
 
 ```java
 public class HelloWorld {
+public abstract class Hello {
+public interface HelloInterface {
+public class HelloWorld extends Hello {
+public class HelloWorld implements HelloInterface {
+public class HelloWorld extends Hello implements HelloInterface {
+public static class HelloWorld<Hello, World> {
 ```
 
-Once the line is found, trim and split the line into a list of strings delimited by consecutive spaces. The class name is the element after the ```class``` element.
+Extraction steps:
 
-Additional notes:
+1. Replace string `, ` with `,`
+1. Split string by consecutive spaces into a list
+1. The element after the ```class``` element should be the __class name__
 
-1. If no access modifier is found, then the default is ```public```
-1. It is okay if the line does not end with left curly brace ```{```
+Additional Notes:
+
+- If the class is an `abstract` class or an `interface`, then the test file cannot be generated since it cannot be instantiated.
 
 ### Scan for member variables
 
 Member variables generally follow the syntax:
 
 ```java
-[<access modifier> ][<other keywords> ]<data type> <variable name>[ = <RHS>];
+[<access_modifier> ][<other_keywords> ]<data_type> <variable_name>[ = <RHS>];
 ```
 
 e.g.
@@ -91,31 +100,46 @@ protected Map<String, Object> map = new HashMap<>();
 public static final int JANUARY = 1;
 ```
 
-Additional notes:
+Extraction steps:
 
-1. `[]` denotes optional
+1. Replace string `, ` with `,`
+1. Split string by consecutive spaces into a list
+1. Remove keywords from list: `public`, `private`, `protected`, `static`, `final`
+1. First element should be the __data type__
+1. Second element should be the __variable name__. Trim trailing `;` from __variable name__
 
 ### Scan for methods
 
 Methods generally follow the syntax:
 
 ```java
-[<access modifier> ][<other keywords> ]<data type> <variable name>[ = <RHS>];
+[<access_modifier> ][<other_keywords> ]<return_data_type> <method_name>([<parameters>])[;|( {)]
 ```
 
 e.g.
 
 ```java
-public void getName()
-protected Cat getById(String id)
+void getName()
+protected Person getByName(String firstName, String lastName) throws Exception
 public abstract void getAddress();
 private final int getDays()
-void setName(String name)
+public static final Map<String, Object> setName(String name)
 ```
+
+Extraction steps:
+
+1. Replace string `, ` with `,`
+1. Split string by consecutive spaces into a list
+1. Remove keywords from list: `public`, `private`, `protected`, `static`, `abstract`
+1. First element should be the __return_data_type__
+1. Split second element by the first `(`
+    1. First element should be the __method_name__
+    1. Trim second element by trailing `)`
+        1. Split remaining line by `,`
 
 Additional Notes:
 
-1.
+- If the method is `abstract`, then the test method cannot be generated since the method cannot be invoked.
 
 ## TestFileGenerator
 
